@@ -33,6 +33,27 @@ class Simulation(object):
     #1 degree of freedom problem 2 sep PID problem
 
 
+class Rocket(object):
+    def __init__(self):
+        global Rocket
+        self.Rocket = turtle.Turtle()
+        self.Rocket.shape('Square')
+        self.Rocket.color('black')
+        self.Rocket.goto(INITIAL_X, INITAL_Y)
+        self.Rocket.speed(0)
+
+        
+
+
+
+
+
+
+
+
+
+
+
 
 def main():
     # while(TIMER < 5):
