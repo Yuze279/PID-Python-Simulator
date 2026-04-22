@@ -5,7 +5,8 @@ import time
 
 #GLOBAL PARAMS 
 TIMER = 0 
-SETPOINT = 1000
+SETPOINT = 10 #final goal 
+SIM_TIME = 10 
 
 # -----------
 
@@ -15,24 +16,29 @@ class Simulation(object):
         self.screen.setup(1280, 900)
         self.marker = turtle.Turtle() 
 
-    #     self.marker.penup()
-    #     self.market.left(90)
-    #     self.marker.goto(15,SETPOINT)
-    #     self.marker.color('red')
-    #     self.sim = True
-    #     self.timer = 0
+        #Goal we are getting to 
+        self.marker.penup()
+        self.marker.left(180)
+        self.marker.goto(15,SETPOINT)
+        self.marker.color('red')
+        self.sim = True
+        self.timer = 0
 
-    # def cycle(self): 
-    #     while(self.sim): 
-    #         if self
-    # #1 degree of freedom problem 2 PID problem
+    def cycle(self): 
+        while(self.sim): 
+            if self.timer > SIM_TIME: 
+                self.sim = False
+
+            
+    #1 degree of freedom problem 2 sep PID problem
+
 
 
 def main():
-    while(TIMER < 5):
-        sim = Simulation()
-        time.sleep(1)
-        timer +=1
-    # sim.cycle()
+    # while(TIMER < 5):
+    sim = Simulation()
+    #     time.sleep(1)
+    #     timer +=1
+    sim.cycle()
 
 main()
