@@ -1,0 +1,22 @@
+Control System 
+- Open loop == unadjusted distance on it's own (without feedback to adjust for output)
+
+input ---> SYSTEM ---> output
+
+- Feedback Control == allow system to make adjustements
+--> Creates an Error=Delta from current position to GOAL to adjust new distance
+
+PID --> We are removing error across time to even out to 0, Constant adjustment!! 
+
+Proportional ==> multiplied by Kp
+
+Integral ==> multiplied by Ki & integrated
+--> takes constant/continueos erros 
+===> Summation to find a value to adjust it by
+
+
+Derivative ==> multiplied by Kd & differentiated
+--> STEEPER ==> Faster error changes larger it becomes
+
+Kp, Ki, Kd are called GAINS
+
