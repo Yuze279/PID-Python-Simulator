@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 import numpy as np 
 import matplotlib 
 import turtle 
@@ -6,7 +7,7 @@ import time
 #GLOBAL PARAMS 
 TIMER = 0 
 SETPOINT = 10 #final goal 
-SIM_TIME = 100    # in sec
+SIM_TIME = 1000    # in sec
 
 TIME_STEP = 0.005
 
@@ -20,6 +21,11 @@ g = -9.81 # Gravitational constant
 V_i = 0 #initial velocity
 Y_i = 0 #initial height
 
+#---PID GAINS---
+KP = 1.0
+KI = 1.0
+KD = 1.0
+
 
 # -----------
 
@@ -27,6 +33,7 @@ class Simulation(object):
     def __init__(self):
 
         self.Insight = Rocket()
+        self.pid = PID(KP, KI, KD, SETPOINT)
 
         self.screen = turtle.Screen()
         self.screen.setup(1280, 900)
@@ -39,13 +46,19 @@ class Simulation(object):
         self.marker.color('red')
         self.sim = True
         self.timer = 0
+        self.poses = np.array([])
+        self.times = np.array([])
+
 
     #do our simulation cycles?
     def cycle(self): 
         while(self.sim): 
         
             #get a thrust output from our PID
-            thrust = 10 #newtons
+            thrust = self.pid.computer(self.Insight.get_y())
+            print(thrust)
+            
+            #10 #newtons
             self.Insight.set_ddy(thrust)
             self.Insight.set_dy()
             self.Insight.set_y()
@@ -53,19 +66,30 @@ class Simulation(object):
             self.timer +=1 
 
             if self.timer > SIM_TIME: 
+                print("SIM ENDED")
                 self.sim = False
             
             elif self.Insight.get_y() > 800: 
+                print("OUT OF BOUNDS")
                 self.sim = False
             
             elif self.Insight.get_y() < -800: 
+                print("OUT OF BOUNDS")
                 self.sim = False
+            
+            self.poses = np.append(self.poses, self.Insight.get_y())
+            self.times = np.append(self.times, self.timer)
 
-
-
-
+        graph(self.times, self.poses)
             
     #1 degree of freedom problem 2 sep PID problem
+
+
+#matplotlib
+def graph(x, y): 
+    plt.plot(x, y)
+    plt.show()
+
 
 
 #thrust verc control rocket, Integral builds over time, how far away for how long
@@ -123,9 +147,28 @@ class PID(object):
         self.error_last = 0
         self.derivative_error = 0 
         self.output = 0
+    #PID output computation
     def computer(self, pos):
-        self.error = target - pos 
-        self. integra
+        self.error = self.setpoint - pos 
+        self.integral_error += self.error * TIME_STEP #sum of this over time ==> error w/respect to time
+        self.derivative_error = (self.error - self.error_last) / TIME_STEP
+
+        self.error_last = self.error
+
+
+        #PID equation
+
+        self.output = self.kp * self.error + self.ki * self.integral_error + self.kd * self.derivative_error
+
+
+        if self.output >= MAX_THRUST: 
+            self.output = MAX_THRUST
+        
+        elif self.output <= 0: 
+            self.output = 0
+        return self.output 
+
+
 
 def main():
     # while(TIMER < 5):
