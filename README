@@ -26,3 +26,6 @@ CREATE VIRTUAL ENVIORMENT
 python3 -m venv venv
 
 source venv/bin/activate
+
+run the pid.py to see the rocket in action :D 
+
