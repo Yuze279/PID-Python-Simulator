@@ -7,9 +7,10 @@ import time
 #GLOBAL PARAMS 
 TIMER = 0 
 SETPOINT = 10 #final goal 
-SIM_TIME = 1000    # in sec
+SIM_TIME = 500
+#1000    # in sec
 
-TIME_STEP = 0.005
+TIME_STEP = 0.001
 
 #_______
 INITIAL_X = 0 
@@ -22,10 +23,20 @@ V_i = 0 #initial velocity
 Y_i = 0 #initial height
 
 #---PID GAINS---
-KP = 1.0
-KI = 1.0
-KD = 1.0
 
+#ku = 0.6
+#Tu = 18 ms
+KP = 0.36
+KI = 40.0
+KD = 0.0008099999999999997
+
+# KP = 0.6 #0.7 breaks the simulation
+# KI = 0.0
+# KD = 0.0
+
+
+#---------------- heuristics
+#Ziegler-nichols 
 
 # -----------
 
